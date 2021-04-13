@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <input type="text" placeholder="000.000.000-00" id="cpf" name="cpf" onkeypress="return SomenteNumero(event)" />
+        <button onclick="return validaCpf()">Verificar CPF</button>
+    </div>
+
+
+    <script type="text/javascript">
+    function SomenteNumero(e){
+        var tecla=(window.event)?event.keyCode:e.which;   
+        if((tecla>47 && tecla<58)) return true;
+        else{
+    	    if (tecla==8 || tecla==0) return true;
+	        else  return false;
+        }
+    }
+
+    function todosIguaisOuDiferentes(array) {
+        var filtrado = array.filter(function(elem, pos, arr) {
+            return arr.indexOf(elem) == pos;
+        });
+
+        return filtrado.length === 1 || filtrado.length === array.length; 
+}
+
+    function validaCpf(){
+        let  strCPF = document.querySelector('#cpf').value
+        if(strCPF == ''){
+            alert("Insira Um CPF")
+        }else{
+            let cpf = []
+        for (i=0; i<strCPF.length; i++){
+            if(isNaN(parseInt(strCPF[i])*1)){
+                console.log(strCPF[i]+"Não e um número")
+            }else{
+                cpf.push(parseInt(strCPF[i]));
+            }
+        }
+        let total=0;
+        let total1=0;
+        res = todosIguaisOuDiferentes(cpf);
+        for (i=0; i<cpf.length-2; i++){
+            let x = 10
+            total += cpf[i]*(x-i);   
+        }
+        for (let i=1; i<cpf.length-1; i++){
+            let x = 11
+                total1 += cpf[i]*(x-i);
+        }
+        dig1 = 11-(total%11);
+        dig2 = 11-(total1%11);
+        if(dig1 == cpf[9] && dig2 == cpf[10] && res !=true){
+            alert("É um cpf Valido");
+            document.querySelector('#cpf').value = ''
+        }else{
+            alert("CPF Invalido");
+            document.querySelector('#cpf').value = ''
+        }
+        }
+    }
+        $("#cpf").mask("000.000.000-00");
+    </script>
+</body>
+</html>
